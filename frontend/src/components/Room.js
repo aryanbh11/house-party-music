@@ -11,6 +11,7 @@ export default class Room extends Component {
             guestCanPause: false,
             isHost: false,
             showSettings: false,
+            spotifyAuthenticated: false,
         };
         // We can get the room code from the url as it will be present as a parameter in the route 
         // (Refer to HomePage.js)
@@ -19,6 +20,7 @@ export default class Room extends Component {
         this.updateShowSettings = this.updateShowSettings.bind(this);
         this.renderSettingsButton = this.renderSettingsButton.bind(this);
         this.getRoomDetails = this.getRoomDetails.bind(this);
+        this.authenticate_spotify = this.authenticate_spotify.bind(this);
         this.getRoomDetails();
     }
 
@@ -36,7 +38,28 @@ export default class Room extends Component {
                 guestCanPause: data.guest_can_pause,
                 isHost: data.is_host,
             });
+            if (this.state.isHost) {
+                this.authenticate_spotify();
+            }
         })
+    }
+
+    authenticate_spotify() {
+        fetch('/spotify/is-authenticated')
+        .then(response => response.json())
+        .then(data => {
+            this.setState({
+                spotifyAuthenticated: data.status
+            });
+            if(!data.status) {
+                fetch('/spotify/get-auth-url')
+                .then(response => response.json())
+                .then(data => {
+                    // Redirecting to spotify page
+                    window.location.replace(data.url);
+                });
+            }
+        });
     }
 
     leaveButtonClicked() {
