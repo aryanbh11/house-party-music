@@ -13,9 +13,11 @@ WIP
 - Webpack
 - Babel
 
-## Running the App
-### Requirements
+## How to run?
+### Requirements:
 [Python3](https://www.python.org/), [Node.js](https://www.npmjs.com/get-npm)
+
+### Running:
 Clone this project and then from the project directory run the following commands:
 ```
 >> pip install -r requirements.txt
