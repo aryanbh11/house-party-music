@@ -23,10 +23,6 @@ Clone this project and then from the project directory run the following command
 >> pip install -r requirements.txt
 >> cd frontend
 >> npm install
->> npm run dev
-```
-After this, exit the node dev mode by pressing **CTRL+C** and continue
-```
 >> cd ..
 >> python3 manage.py runserver
 ```
