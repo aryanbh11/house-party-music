@@ -14,4 +14,14 @@ WIP
 - Babel
 
 ## Running the App
-WIP
+### Requirements
+[Python3](https://www.python.org/), [Node.js](https://www.npmjs.com/get-npm)
+Clone this project and then from the project directory run the following commands:
+```
+>> pip install -r requirements.txt
+>> cd frontend
+>> npm install
+>> cd ..
+>> python3 manage.py runserver
+```
+After this visit the [local host](http://127.0.0.1:8000/)

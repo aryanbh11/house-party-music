@@ -2,6 +2,8 @@ import React, { Component } from "react";
 import { Button, Grid, Typography } from "@material-ui/core";
 import { Link } from "react-router-dom";
 import CreateRoomPage from "./CreateRoomPage"; 
+import MediaPlayer from "./MediaPlayer"
+
 
 export default class Room extends Component {
     constructor(props) {
@@ -12,6 +14,7 @@ export default class Room extends Component {
             isHost: false,
             showSettings: false,
             spotifyAuthenticated: false,
+            song: {}
         };
         // We can get the room code from the url as it will be present as a parameter in the route 
         // (Refer to HomePage.js)
@@ -21,7 +24,16 @@ export default class Room extends Component {
         this.renderSettingsButton = this.renderSettingsButton.bind(this);
         this.getRoomDetails = this.getRoomDetails.bind(this);
         this.authenticate_spotify = this.authenticate_spotify.bind(this);
+        this.getCurrentSong = this.getCurrentSong.bind(this);
         this.getRoomDetails();
+    }
+
+    componentDidMount() {
+        this.interval = setInterval(this.getCurrentSong, 1000)
+    }
+
+    componentWillUnmount() {
+        clearInterval(this.interval)
     }
 
     getRoomDetails() {
@@ -42,6 +54,21 @@ export default class Room extends Component {
                 this.authenticate_spotify();
             }
         })
+    }
+
+    getCurrentSong() {
+        fetch('/spotify/current-song')
+        .then(response => {
+            if (!response.ok) {
+                return {}
+            } else {
+                return response.json();
+            }
+        })
+        .then(data => {
+            this.setState({song: data});
+            console.log(data)
+        });
     }
 
     authenticate_spotify() {
@@ -114,21 +141,7 @@ export default class Room extends Component {
                     Code: {this.roomCode}
                 </Typography>
             </Grid>
-            <Grid item xs={12}>
-                <Typography variant='h6' component='h6'>
-                    Votes: {this.state.votesToSkip}
-                </Typography>
-            </Grid>
-            <Grid item xs={12}>
-                <Typography variant='h6' component='h6'>
-                    Guest Can Pause: {this.state.guestCanPause.toString()}
-                </Typography>
-            </Grid>
-            <Grid item xs={12}>
-                <Typography variant='h6' component='h6'>
-                    Host: {this.state.isHost.toString()}
-                </Typography>
-            </Grid>
+            <MediaPlayer {...this.state.song} />
             {this.state.isHost ? this.renderSettingsButton(): null}
             <Grid item xs={12}>
                 <Button variant="contained" color="primary" onClick={this.leaveButtonClicked}>Leave Room</Button>
