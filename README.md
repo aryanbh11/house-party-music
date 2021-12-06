@@ -27,3 +27,14 @@ Clone this project and then from the project directory run the following command
 >> python3 manage.py runserver
 ```
 After this visit the [local host](http://127.0.0.1:8000/)
+
+
+Djangorestframework
+Django
+npm i webpack webpack-cli --save-dev
+npm i @babel/core babel-loader @babel/preset-env @babel/preset-react --save-dev
+npm i react react-dom --save--dev
+npm install @material-ui/core
+npm install @babel/plugin-proposal-class-properties
+npm install react-router-dom
+npm install @material-ui/icons
